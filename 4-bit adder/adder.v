@@ -1,31 +1,18 @@
-`timescale 1ns/1ps
+// 4 bit adder
+module adder(
+    input [3:0]      magA, magB,  // magnitudes de A e B
+    input            sA, sB,      // sinais de A e B
+	output reg       sSum,       // sinal da soma
+    output reg [4:0] sum         // magnitude da soma
+); 
 
-module adder_1bit
-(
-    input  a, b, c,
-    output s, cout
-);
-
-    assign s    = a ^ b ^ c;
-    assign cout = (a & b) | ((a ^ b ) & c);
-
-endmodule
-
-module adder # (parameter N = 4)
-(
-    input  [N-1:0] a, b, // 2 vetores de 4 bits
-    input          cin,  // carry in
-    output [N-1:0] s,    // magnitude da soma
-    output         cout  // carry out (MSB)
-);
-
-    wire [N:0] c;
-
-    assign c[0] = cin;
-    assign cout = c[N];
-
-    for (genvar i = 0; i < N; i++) begin
-       adder_1bit si (a[i], b[i], c[i], s[i], c[i + 1]); 
+    reg [5:0] a, b; // registrador para o tratamento de sinal
+    // parte combinacional
+    always @(*) begin
+    	a = sA ? -a : a;
+    	b = sB ? -b : b;
+        {sSum, sum} = a + b;
+    	sum = sSum ? -res : res;
     end
 
 endmodule
