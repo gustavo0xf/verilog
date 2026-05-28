@@ -1,13 +1,13 @@
-module(
+module (
 	input clk, rst, data
 	output reg S
 );
 	// estados
-	parameter inicio = 0; // 000
-	parameter ler    = 1; // 001
+	parameter inicio  = 0; // 000
+	parameter ler     = 1; // 001
 	parameter stop	  = 2; // 010
-	parameter tecla1 = 3; // 011
-	parameter tecla2 = 4; // 100
+	parameter tecla1  = 3; // 011
+	parameter tecla2  = 4; // 100
 	// contador, vetor temporario e estado atual. como sabemos que o contador só vai até 4, podemos usar um integer sem problemas
 	integer i = 0;
 	reg [2:0] estado;
@@ -15,19 +15,19 @@ module(
 	// parte combinacional
 	always @(*) begin
 		case (estado)
-			inicio:begin
+			inicio: begin
 				S <= 0;
 			end
-			ler:begin
+			ler: begin
 				S <= S;
 			end
-			stop:begin
+			stop: begin
 				S <= S;
 			end
-			tecla1:begin
+			tecla1: begin
 				S <= 1;
 			end
-			tecla2:begin
+			tecla2: begin
 				S <= 0;
 			end
 		endcase
@@ -39,7 +39,7 @@ module(
 		end
 		else begin
 			case (estado)
-				inicio:begin
+				inicio: begin
 					if (data == 0) begin
 						estado <= ler;
 					end
@@ -47,7 +47,7 @@ module(
 						estado <= inicio;
 					end;
 				end
-				ler:begin
+				ler: begin
 					if (i < 4) begin
 						tmp[i] = data;
 						i = i + 1;
@@ -58,21 +58,17 @@ module(
 						estado <= stop;
 					end
 				end
-				stop:begin
-					if (tmp == 4'b0001) begin
-						estado <= tecla1;
-					end
-					else if (tmp == 4'b0010) begin
-						estado <= tecla2;
-					end
-					else begin
-						estado <= inicio;
-					end
+				stop: begin
+					case (tmp)
+						"1010": estado <= tecla2;
+						"1001": estado <= tecla1;
+						default: estado <= inicio;
+					endcase
 				end
-				tecla1:begin
+				tecla1: begin
 					estado <= inicio;
 				end
-				tecla2:begin
+				tecla2: begin
 					estado <= inicio;
 				end
 			endcase
