@@ -8,7 +8,7 @@ module incrementer (
 	parameter checa200	  = 2;
 	// estado atual e contador
 	reg [1:0]  estado;
-	reg [31:0] counter;
+	reg [31:0] counter = 0;
 	// parte combinacional
 	always @(*) begin
 		case(estado)
