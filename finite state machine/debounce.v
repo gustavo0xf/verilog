@@ -1,4 +1,4 @@
-module(
+module debounce (
 	input clk, A,
 	output reg S
 );
