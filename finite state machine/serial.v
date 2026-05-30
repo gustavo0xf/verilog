@@ -1,4 +1,4 @@
-module (
+module serialData (
 	input clk, rst, data
 	output reg S
 );
