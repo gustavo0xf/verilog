@@ -1,4 +1,4 @@
-module(
+module divisor (
 	input clk,     // 32 MHz
 	output reg f1, // 16 MHz = 32/2¹ -> 1º bit
 	output reg f2, // 4  MHz = 32/2³ -> 3º bit
