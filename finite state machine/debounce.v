@@ -1,5 +1,5 @@
 module debounce (
-	input clk, A,
+	input clk, rst, A,
 	output reg S
 );
 	// estados
@@ -33,7 +33,7 @@ module debounce (
 			estado <= inicio;
 		end
 		else begin
-			case (estado) begin
+			case (estado)
 				inicio: begin
 					if (A == 1) begin
 						estado <= debounce;
@@ -56,6 +56,6 @@ module debounce (
 						estado <= inicio;
 					end
 				end
-			end
+			endcase
 		end
 	end
